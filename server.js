@@ -38,13 +38,17 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+
+app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it better. It makes req.ip work, see below
+
 app.route('/api/whoami')
     .get(function(req, res) {
-      const myIP = req.ip // or x-forwarded-for
-      //const myLanguage = req.connection
-      //console.log(req.connection)
-      //console.log(req)
-      res.type('txt').send('myIP = '+myIP)
+    
+
+  // const clientIPList = req.headers["x-forwarded-for"] 
+  // const clientIP = clientIPList[0]
+  
+  res.type('txt').send('myIP = '+req.ip)
       //res.type('txt').send("req.headers = "+JSON.stringify(req.headers))
 		  //res.sendFile(process.cwd() + '/views/index.html');
     })
