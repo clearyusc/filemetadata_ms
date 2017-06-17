@@ -5,6 +5,7 @@
 
 'use strict';
 
+var al_parser = require('accept-language-parser');
 var fs = require('fs');
 var express = require('express');
 var app = express();
@@ -46,8 +47,18 @@ app.route('/api/whoami')
   
   var clientData = {"ipaddress":null,"language":null,"software":null}
   clientData["ipaddress"] = req.ip
-  clientData["language"] = req.headers["accept-language"]
   
+  const languages = al_parser.parse(req.headers["accept-language"]);
+  var acceptedLanguages = ""
+  
+  languages.forEach((language) => {    
+    acceptedLanguages.concat(language["code"])
+    const alRegion = (language["region"]) ? language["region"] : ""
+    acceptedLanguages.concat(alRegi)
+  })
+  
+    clientData["language"] = acceptedLanguages
+
   
   // const clientIPList = req.headers["x-forwarded-for"] 
   // const clientIP = clientIPList[0]
