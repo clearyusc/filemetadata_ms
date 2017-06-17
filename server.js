@@ -45,7 +45,7 @@ app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it be
 app.route('/api/whoami')
     .get(function(req, res) {
   
-  var clientData = {"ipaddress":null,"language":null,"software":null}
+  var clientData = {"ipaddress":null,"language":null,"software":null,"browser":null} 
   clientData["ipaddress"] = req.ip
   
   const languages = al_parser.parse(req.headers["accept-language"]);
@@ -68,7 +68,19 @@ app.route('/api/whoami')
   
     var aLang = languages[0]["code"]
     let r = languages[0]["region"]
-    clientData["language"] = aLang.concat( (r) ?  r : "")
+    clientData["language"] = aLang.concat( (r) ?  "-"+r : "")
+    
+  
+  
+  const techStr = req.headers["user-agent"]
+  
+  let p1 = techStr.indexOf('(')
+  let p2 = techStr.indexOf(')')
+  const browserStr = techStr.substring(0,p1) // TODO: Modularize this parsing code more. (It's late and im tired.)
+  clientData["browser"] = browserStr.trim()
+    
+  const softwareStr = techStr.substring(p1-1,p2)
+  clientData["software"] = softwareStr.trim()
     
   
   // const clientIPList = req.headers["x-forwarded-for"] 
