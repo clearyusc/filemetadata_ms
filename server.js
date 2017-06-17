@@ -38,6 +38,13 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+app.route('/api/whoami')
+    .get(function(req, res) {
+      const myIP = req.connection.remoteAddress
+      const myLanguage = req.connection
+		  //res.sendFile(process.cwd() + '/views/index.html');
+    })
+
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
   res.status(404);
