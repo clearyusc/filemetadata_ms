@@ -40,8 +40,12 @@ app.route('/')
 
 app.route('/api/whoami')
     .get(function(req, res) {
-      const myIP = req.connection.remoteAddress
-      const myLanguage = req.connection
+      const myIP = req.ip // or x-forwarded-for
+      //const myLanguage = req.connection
+      //console.log(req.connection)
+      //console.log(req)
+      res.type('txt').send('myIP = '+myIP)
+      //res.type('txt').send("req.headers = "+JSON.stringify(req.headers))
 		  //res.sendFile(process.cwd() + '/views/index.html');
     })
 
