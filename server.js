@@ -40,6 +40,7 @@ app.route('/')
     })
 
 
+
 app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it better. It makes req.ip work, see below
 
 app.route('/api/whoami')
@@ -50,9 +51,10 @@ app.route('/api/whoami')
   
   const languages = al_parser.parse(req.headers["accept-language"]);
   
-  var acceptedLanguages = ""
   
   /* // TODO: Update this some day to handle multiple languages. (Current challenge on FCC only asks for 1.)
+  
+  var acceptedLanguages = ""
   languages.forEach((language) => {   
     console.log(language)
     acceptedLanguages = acceptedLanguages.concat(language['code'])
@@ -66,35 +68,27 @@ app.route('/api/whoami')
   
   */
   
-    var aLang = languages[0]["code"]
-    let r = languages[0]["region"]
-    clientData["language"] = aLang.concat( (r) ?  "-"+r : "")
-    
+  
+  const aLang = languages[0]["code"]
+  let r = languages[0]["region"]
+  clientData["language"] = aLang.concat( (r) ?  "-"+r : "")
   
   
-  const techStr = req.headers["user-agent"]
-  
+  const techStr = req.headers["user-agent"]  
   let p1 = techStr.indexOf('(')
-  let p2 = techStr.indexOf(')')
+  let p2 = techStr.indexOf(')')  
+    
+  const softwareStr = techStr.substring(p1+1,p2)
+  clientData["software"] = softwareStr.trim()
+  
   const browserStr = techStr.substring(0,p1) // TODO: Modularize this parsing code more. (It's late and im tired.)
   clientData["browser"] = browserStr.trim()
     
-  const softwareStr = techStr.substring(p1-1,p2)
-  clientData["software"] = softwareStr.trim()
-    
   
-  // const clientIPList = req.headers["x-forwarded-for"] 
-  // const clientIP = clientIPList[0]
   
-
-res.type('txt').send(JSON.stringify(clientData))
+  res.type('txt').send(JSON.stringify(clientData))
   
-    
-   //res.type('txt').send("req.headers = "+JSON.stringify(req.headers))
-  
-// 	  res.type('txt').send("req.body = "+JSON.stringify(req.body))
-
-    })
+})
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
