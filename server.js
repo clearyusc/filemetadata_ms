@@ -43,14 +43,23 @@ app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it be
 
 app.route('/api/whoami')
     .get(function(req, res) {
-    
-
+  
+  var clientData = {"ipaddress":null,"language":null,"software":null}
+  clientData["ipaddress"] = req.ip
+  clientData["language"] = req.headers["accept-language"]
+  
+  
   // const clientIPList = req.headers["x-forwarded-for"] 
   // const clientIP = clientIPList[0]
   
-  res.type('txt').send('myIP = '+req.ip)
-      //res.type('txt').send("req.headers = "+JSON.stringify(req.headers))
-		  //res.sendFile(process.cwd() + '/views/index.html');
+
+res.type('txt').send(JSON.stringify(clientData))
+  
+    
+   //res.type('txt').send("req.headers = "+JSON.stringify(req.headers))
+  
+// 	  res.type('txt').send("req.body = "+JSON.stringify(req.body))
+
     })
 
 // Respond not found to all the wrong routes
