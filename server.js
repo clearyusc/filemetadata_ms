@@ -49,16 +49,27 @@ app.route('/api/whoami')
   clientData["ipaddress"] = req.ip
   
   const languages = al_parser.parse(req.headers["accept-language"]);
+  
   var acceptedLanguages = ""
   
-  languages.forEach((language) => {    
-    acceptedLanguages.concat(language["code"])
-    const alRegion = (language["region"]) ? language["region"] : ""
-    acceptedLanguages.concat(alRegi)
-  })
+  /* // TODO: Update this some day to handle multiple languages. (Current challenge on FCC only asks for 1.)
+  languages.forEach((language) => {   
+    console.log(language)
+    acceptedLanguages = acceptedLanguages.concat(language['code'])
+    console.log('acceptedlanguages.1 = '+acceptedLanguages)
+    const alRegion = "-".concat((language["region"]) ? language["region"] : "") // its added with a '-'
+    acceptedLanguages = acceptedLanguages.concat(alRegion)
+    console.log('acceptedlanguages.2 = '+acceptedLanguages)
+  }) 
   
-    clientData["language"] = acceptedLanguages
-
+  clientData["language"] = acceptedLanguages
+  
+  */
+  
+    var aLang = languages[0]["code"]
+    let r = languages[0]["region"]
+    clientData["language"] = aLang.concat( (r) ?  r : "")
+    
   
   // const clientIPList = req.headers["x-forwarded-for"] 
   // const clientIP = clientIPList[0]
