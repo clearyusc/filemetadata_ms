@@ -29,6 +29,10 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+app.route('/get-file-size')
+    .post(function(req,res) {
+      res.type('txt').send('test worked'+req.body);       
+})
 
 
 //app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it better. It makes req.ip work, see below
