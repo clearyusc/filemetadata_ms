@@ -6,6 +6,7 @@
 'use strict';
 
 var express = require('express');
+var bodyParser = require('body-parser')
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
@@ -29,9 +30,11 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+app.use(bodyParser.json())
+//app.use(express.bodyParser());
 app.route('/get-file-size')
     .post(function(req,res) {
-      res.type('txt').send('test worked'+req.body);       
+      res.type('txt').send('test worked'+JSON.stringify(req.body));    // ** TODO - Figure out why the body is empty on a post     
 })
 
 
