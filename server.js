@@ -30,8 +30,13 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
-app.use(bodyParser.json())
-//app.use(express.bodyParser());
+// this fixed it:
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true 
+})); 
+
+
 app.route('/get-file-size')
     .post(function(req,res) {
       res.type('txt').send('test worked'+JSON.stringify(req.body));    // ** TODO - Figure out why the body is empty on a post     
