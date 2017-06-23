@@ -43,7 +43,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 app.route('/get-file-size')
     .post(function(req,res) {
-      res.type('txt').send('test worked'+JSON.stringify(req.files));    // ** TODO - Figure out why the body is empty on a post     
+      const f = req.swagger.params.file.value;
+      res.type('txt').send('test worked'+JSON.stringify(f));    // ** TODO - Figure out why the body is empty on a post     
 })
 
 /*app.post('/', function(req, res){
