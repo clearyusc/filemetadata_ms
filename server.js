@@ -7,6 +7,9 @@
 
 var express = require('express');
 var bodyParser = require('body-parser')
+var multer  = require('multer')
+
+var upload = multer({ dest: 'uploads/' })
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
@@ -36,11 +39,18 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true 
 })); 
 
+//app.use(multer({ dest: './uploads/'}).middleware)
 
 app.route('/get-file-size')
     .post(function(req,res) {
-      res.type('txt').send('test worked'+JSON.stringify(req.body));    // ** TODO - Figure out why the body is empty on a post     
+      res.type('txt').send('test worked'+JSON.stringify(req.files));    // ** TODO - Figure out why the body is empty on a post     
 })
+
+/*app.post('/', function(req, res){
+    console.log(req.body) // form fields
+    console.log(req.files) // form files
+    res.status(204).end()
+});*/
 
 
 //app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it better. It makes req.ip work, see below
