@@ -35,49 +35,16 @@ app.route('/')
     })
 
 // this fixed it:
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true 
-})); 
-
-//app.use(multer({ dest: './uploads/'}).middleware)
-
-// 1. Connect Multer to uploading via html
-// 2. Get the file size using fs or something else
-
-/*app.route('/get-file-size')
-    .post(function(req,res) {
-    
-      //const f = req.swagger.params.file.value;
-      //res.type('txt').send('test worked'+JSON.stringify(f));    // ** TODO - Figure out why the body is empty on a post     
-})*/
+// app.use(bodyParser.json());       // to support JSON-encoded bodies
+// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+//   extended: true 
+// })); 
 
 app.post('/get-file-size', upload.single('uploadFile'),  function(req, res, next) {
   //console.log('req.files = '+req.files)
-  const filesize = ["size":req.file.size]
-  res.type('txt').send(JSON.stringify(req.file.size));
+  const filesizeObj = {"size":req.file.size}
+  res.type('txt').send(JSON.stringify(filesizeObj));
 })
-
-
-function getFilesizeInBytes(filename) {
-    var stats = fs.statSync("uploads/"+filename)
-    var fileSizeInBytes = stats["size"]
-    return fileSizeInBytes
-}
-
-/*app.post('/', function(req, res){
-    console.log(req.body) // form fields
-    console.log(req.files) // form files
-    res.status(204).end()
-});*/
-
-
-//app.enable('trust proxy'); // ** TODO: Dive deeper into this to understand it better. It makes req.ip work, see below
-
-// app.route('/api/whoami')
-//     .get(function(req, res) {
-  
-// })
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
